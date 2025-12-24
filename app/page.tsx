@@ -18,7 +18,7 @@ export default async function Home() {
     }
 
     const transcripts = await getTranscripts()
-
+    console.log('transctipts', transcripts.length)
     return (
         <div className="flex gap-12 ">
             <Table>
