@@ -2,7 +2,13 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+For running locally:
+
+Install dependencies:
+
+`npm install | yarn install | pnpm install`
+
+Then:
 
 ```bash
 npm run dev
@@ -16,21 +22,39 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+I'd love the chance to discuss this with your dev team! Thanks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Challenge Details
 
-## Learn More
+My approach to this challenge was to employ [Next.js 16](https://nextjs.org/) for server rendering, obviously [React](https://react.dev/) comes with that, it makes use of a [Neon Postgres][https://neon.com/] database, [Drizzle ORM](https://orm.drizzle.team/) for database manipulations,  and Vercel's [AI SDK](https://ai-sdk.dev/) for LLM interfacing.
 
-To learn more about Next.js, take a look at the following resources:
+The "pages" are React Server Components (rendered on the server) and logic is mostly Next.js Server Actions.  There is no direct querying, API calls, or interfacing with the database done on the client.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+There's a small frontend that allows for convo files (TXT) to be uploaded.  The workflow is that 
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. A text file is uploaded via a Server Action
+2. Initial values are written to the Neon Db (including the full convo text)
+3. It then calls a second Server Action that makes the LLM call
+   1. When that returns - takes a minute, see Caveats - an update to the Database is made with the results from the LLM
+4. The UI is then refreshed with the new Patient (faker supplied name)
+5. A click on the name will invoke a Details page where you can see the Patient data the LLM found, see the transcript and the results of the Clinical Trials API call
 
-## Deploy on Vercel
+#### Convo Files
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+I've provided 3 sample patient-doctor conversations that I found [on Kaggle](https://www.kaggle.com/datasets/azmayensabil/doctor-patient-conversation-large).  Feel free to try copying other samples - I can't vouch for those on forms other than this at the link above.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### AI Use and Callouts
+
+I lightly used AI to construct the initial Drizzle schema but even most of tha I re-worked. Most of this was done old- school.  I think places I'd call out are the use of the Vercel AI SDK - han't really used that before (it's very cool) and the next.js architecture pattern  of heavily being server-based.
+
+### Caveats
+
+Do to the time constraints there are a few things I'd like to call out as *would have done if*:
+
+-  It's pretty light on the error handling - which would need to really be much more solid since you sometimes get strange things back from LLM calls.
+- The UX is awkward and I'd definitely put indicators, spinners, user-feedback around a lot of this.  It takes a minute for the llm call (especially long with some models) and right now there'a no feedback. 
+
+
+
+
+
