@@ -11,6 +11,8 @@ import {
 } from '@/components/ui/table'
 import { getTranscripts } from '@/db/transcripts'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Home() {
     const uploadFile = async (formData: FormData) => {
         'use server'
