@@ -20,7 +20,7 @@ export default async function Home() {
     }
 
     const transcripts = await getTranscripts()
-    console.log('transctipts', transcripts.length)
+
     return (
         <div className="flex gap-12 ">
             <Table>
@@ -37,8 +37,7 @@ export default async function Home() {
                             <TableCell>
                                 <Link
                                     className="cursor-pointer hover:text-teal-600"
-                                    href={`/detail/${transcript.id}`}
-                                >
+                                    href={`/detail/${transcript.id}`}>
                                     {transcript.title}
                                 </Link>
                             </TableCell>

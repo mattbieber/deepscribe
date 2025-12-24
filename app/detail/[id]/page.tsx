@@ -228,6 +228,10 @@ export default async function Page({
                                             </div>
                                         )
                                     })}
+
+                                    { queryResult.length === 0 && (
+                                        <div>No trials found.</div>
+                                    )}
                                 </div>
                             </CardContent>
                         </Card>
