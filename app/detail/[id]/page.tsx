@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { Info, StepBack } from 'lucide-react';
-import Link from 'next/link';
+import axios from 'axios'
+import { Info, StepBack } from 'lucide-react'
+import Link from 'next/link'
 
 import {
     Card,
@@ -9,59 +9,59 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import type { Transcript } from '@/db/schema';
-import { getTranscript } from '@/db/transcripts';
+} from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import type { Transcript } from '@/db/schema'
+import { getTranscript } from '@/db/transcripts'
 
 type ApiResult = {
     protocolSection: {
         identificationModule: {
-            nctId: string;
+            nctId: string
             orgStudyIdInfo: {
-                id: string;
-            };
+                id: string
+            }
             organization: {
-                fullName: string;
-            };
-            briefTitle: string;
-            officialTitle: string;
-        };
-    };
-};
+                fullName: string
+            }
+            briefTitle: string
+            officialTitle: string
+        }
+    }
+}
 
 type StudyInfo = {
-    nctId: string;
-    orgStudyIdInfo: string;
-    organization: string;
-    briefTitle: string;
-    officialTitle: string;
-};
+    nctId: string
+    orgStudyIdInfo: string
+    organization: string
+    briefTitle: string
+    officialTitle: string
+}
 
 export default async function Page({
     params,
 }: {
-    params: Promise<{ id: string }>;
+    params: Promise<{ id: string }>
 }) {
-    const { id } = await params;
-    const result = await getTranscript(id);
-    const transcript: Transcript = result[0];
-    const queryResult: StudyInfo[] = [];
+    const { id } = await params
+    const result = await getTranscript(id)
+    const transcript: Transcript = result[0]
+    const queryResult: StudyInfo[] = []
 
     if (transcript.query) {
-        const res = await axios.get(transcript.query);
-        const data = await res.data;
+        const res = await axios.get(transcript.query)
+        const data = await res.data
         if (data.studies && data.studies.length > 0) {
-            (data.studies as Array<ApiResult>).forEach((study) => {
-                const data = study.protocolSection.identificationModule;
+            ;(data.studies as Array<ApiResult>).forEach((study) => {
+                const data = study.protocolSection.identificationModule
                 queryResult.push({
                     nctId: data.nctId,
                     orgStudyIdInfo: data.orgStudyIdInfo.id,
                     organization: data.organization.fullName,
                     briefTitle: data.briefTitle,
                     officialTitle: data.officialTitle,
-                });
-            });
+                })
+            })
         }
     }
 
@@ -226,7 +226,7 @@ export default async function Page({
                                                     {result.officialTitle}
                                                 </div>
                                             </div>
-                                        );
+                                        )
                                     })}
                                 </div>
                             </CardContent>
@@ -235,5 +235,5 @@ export default async function Page({
                 </Tabs>
             </div>
         </div>
-    );
+    )
 }

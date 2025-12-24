@@ -1,24 +1,24 @@
-'use client';
-import { ArrowBigUpDash } from 'lucide-react';
-import { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { Card } from '@/components/ui/card';
+'use client'
+import { ArrowBigUpDash } from 'lucide-react'
+import { useCallback } from 'react'
+import { useDropzone } from 'react-dropzone'
+import { Card } from '@/components/ui/card'
 
 interface Props {
-    uploadFile: (formData: FormData) => void;
+    uploadFile: (formData: FormData) => void
 }
 
 export function UploadComponent({ uploadFile }: Props) {
     const onDrop = useCallback(
         async (files: File[]) => {
-            if (files.length === 0) return;
-            const file = files[0];
-            const formData = new FormData();
-            formData.append('transcript', file);
-            uploadFile(formData);
+            if (files.length === 0) return
+            const file = files[0]
+            const formData = new FormData()
+            formData.append('transcript', file)
+            uploadFile(formData)
         },
         [uploadFile],
-    );
+    )
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
@@ -26,7 +26,7 @@ export function UploadComponent({ uploadFile }: Props) {
         accept: {
             'text/*': [],
         },
-    });
+    })
 
     return (
         <Card className="cursor-pointer relative border-2 border-dashed bg-zinc-100 rounded-sm h-40 w-200 flex items-center justify-center transition-colors duration-200 ease-in-out group">
@@ -50,5 +50,5 @@ export function UploadComponent({ uploadFile }: Props) {
                 </div>
             </section>
         </Card>
-    );
+    )
 }

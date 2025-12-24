@@ -1,13 +1,13 @@
-'use server';
-import { faker } from '@faker-js/faker';
-import { generateObject } from 'ai';
-import { eq } from 'drizzle-orm';
-import { refresh } from 'next/cache';
-import { z } from 'zod';
-import { db } from '@/db';
-import { transcripts } from '@/db/schema';
+'use server'
+import { faker } from '@faker-js/faker'
+import { generateObject } from 'ai'
+import { eq } from 'drizzle-orm'
+import { revalidatePath } from 'next/cache'
+import { z } from 'zod'
+import { db } from '@/db'
+import { transcripts } from '@/db/schema'
 
-const sysPrompt = `You are a clinical documentation specialist adept at parsing doctor-patient visit transcripts.`;
+const sysPrompt = `You are a clinical documentation specialist adept at parsing doctor-patient visit transcripts.`
 
 const prompt = `
 You are a clinical documentation specialist.  I will upload a transcript of a doctor-patient conversation.  I'd like you to attempt to extract  the following insights from the conversation: symptoms and conditions, diagnosis, patient age, patient city, patient state, patient gender. Present your findings as a json object with a single key for each of the 5 criteria mentioned.  The values for each key should be as follows:  
@@ -23,15 +23,15 @@ patient_city
 patient_state
 patient_gender
 string or null if not found
-`;
+`
 
 export async function uploadAction(formData: FormData) {
-    const file = formData.get('transcript') as File;
-    console.group('CALLLED');
+    const file = formData.get('transcript') as File
+    console.group('CALLLED')
     if (!file) {
-        return { success: false, message: 'No transcript found.' };
+        return { success: false, message: 'No transcript found.' }
     }
-    const transcript = await file.text();
+    const transcript = await file.text()
 
     try {
         const response = await db
@@ -47,29 +47,29 @@ export async function uploadAction(formData: FormData) {
                 locState: 'unknown',
                 query: null,
             })
-            .returning({ insertedId: transcripts.id });
+            .returning({ insertedId: transcripts.id })
 
-        await analyzeTranscriptAndConstructQuery(response[0].insertedId);
+        await analyzeTranscriptAndConstructQuery(response[0].insertedId)
     } catch (err) {
-        return { success: false, message: err };
+        return { success: false, message: err }
     }
-    refresh();
+    revalidatePath('/')
 
     return {
         success: true,
         message: `File ${file.name} uploaded successfully.`,
-    };
+    }
 }
 
 async function analyzeTranscriptAndConstructQuery(transcriptId: string) {
     const transcript = await db
         .select()
         .from(transcripts)
-        .where(eq(transcripts.id, transcriptId));
+        .where(eq(transcripts.id, transcriptId))
 
-    const transcriptText = transcript[0].transcriptText;
+    const transcriptText = transcript[0].transcriptText
 
-    const fullPrompt = `${prompt}\n\n<transcript>${transcriptText}\n`;
+    const fullPrompt = `${prompt}\n\n<transcript>${transcriptText}\n`
 
     try {
         const { object } = await generateObject({
@@ -84,15 +84,15 @@ async function analyzeTranscriptAndConstructQuery(transcriptId: string) {
                 patient_state: z.nullable(z.string()),
                 patient_gender: z.nullable(z.string()),
             }),
-        });
+        })
 
-        const sc = object.symptoms_and_conditions.join(' AND ');
+        const sc = object.symptoms_and_conditions.join(' AND ')
 
-        let query = '';
+        let query = ''
         if (sc.length > 0) {
             query = `https://clinicaltrials.gov/api/v2/studies?query.cond=${encodeURI(
                 sc,
-            )}`;
+            )}`
         }
 
         await db
@@ -107,8 +107,8 @@ async function analyzeTranscriptAndConstructQuery(transcriptId: string) {
                 diagnosis: object.diagnosis,
                 query,
             })
-            .where(eq(transcripts.id, transcriptId));
+            .where(eq(transcripts.id, transcriptId))
     } catch (err) {
-        console.error('Error constructing query URL', err);
+        console.error('Error constructing query URL', err)
     }
 }
