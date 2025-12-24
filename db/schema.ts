@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm'
+import { sql } from 'drizzle-orm';
 import {
     index,
     integer,
@@ -6,7 +6,7 @@ import {
     text,
     timestamp,
     uuid,
-} from 'drizzle-orm/pg-core'
+} from 'drizzle-orm/pg-core';
 // Main transcripts table
 export const transcripts = pgTable(
     'transcripts',
@@ -34,8 +34,8 @@ export const transcripts = pgTable(
         uploadedAt: timestamp('uploaded_at').defaultNow().notNull(),
     },
     (table) => [index('idx_uploaded_at').on(table.uploadedAt)],
-)
+);
 
 // TypeScript type exports
-export type Transcript = typeof transcripts.$inferSelect
-export type NewTranscript = typeof transcripts.$inferInsert
+export type Transcript = typeof transcripts.$inferSelect;
+export type NewTranscript = typeof transcripts.$inferInsert;

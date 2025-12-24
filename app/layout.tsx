@@ -26,10 +26,12 @@ export default function RootLayout({
         <html lang="en">
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased flex justify-center mt-20`}
-            >   
+            >
                 <div className="flex flex-col w-1/2 gap-8">
-                <div className="text-5xl font-extrabold text-teal-600 tracking-tighter">ClinicalTrials</div>
-                {children}
+                    <div className="text-5xl font-extrabold text-teal-600 tracking-tighter">
+                        ClinicalTrials
+                    </div>
+                    {children}
                 </div>
             </body>
         </html>

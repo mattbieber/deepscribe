@@ -1,8 +1,8 @@
-import 'dotenv/config'
-import assert from 'node:assert'
-import { defineConfig } from 'drizzle-kit'
+import 'dotenv/config';
+import assert from 'node:assert';
+import { defineConfig } from 'drizzle-kit';
 
-assert(process.env.DATABASE_URL, 'DATABASE_URL is required')
+assert(process.env.DATABASE_URL, 'DATABASE_URL is required');
 
 export default defineConfig({
     out: './drizzle',
@@ -11,4 +11,4 @@ export default defineConfig({
     dbCredentials: {
         url: process.env.DATABASE_URL,
     },
-})
+});

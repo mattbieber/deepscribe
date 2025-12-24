@@ -1,130 +1,130 @@
 {
-  "id": "5859f6e2-ec45-481a-9c58-bd829044e1ac",
-  "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "7",
-  "dialect": "postgresql",
-  "tables": {
-    "public.transcripts": {
-      "name": "transcripts",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "transcript_title": {
-          "name": "transcript_title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "transcript_text": {
-          "name": "transcript_text",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "llm_text": {
-          "name": "llm_text",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "patient_age": {
-          "name": "patient_age",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "patient_gender": {
-          "name": "patient_gender",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "patient_ethnicity": {
-          "name": "patient_ethnicity",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "loc_city": {
-          "name": "loc_city",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "loc_state": {
-          "name": "loc_state",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "symptoms": {
-          "name": "symptoms",
-          "type": "text[]",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "ARRAY[]::text[]"
-        },
-        "diagnosis": {
-          "name": "diagnosis",
-          "type": "text[]",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "ARRAY[]::text[]"
-        },
-        "query": {
-          "name": "query",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "uploaded_at": {
-          "name": "uploaded_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
+    "id": "5859f6e2-ec45-481a-9c58-bd829044e1ac",
+    "prevId": "00000000-0000-0000-0000-000000000000",
+    "version": "7",
+    "dialect": "postgresql",
+    "tables": {
+        "public.transcripts": {
+            "name": "transcripts",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "uuid",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "default": "gen_random_uuid()"
+                },
+                "transcript_title": {
+                    "name": "transcript_title",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "transcript_text": {
+                    "name": "transcript_text",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "llm_text": {
+                    "name": "llm_text",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "patient_age": {
+                    "name": "patient_age",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "patient_gender": {
+                    "name": "patient_gender",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "patient_ethnicity": {
+                    "name": "patient_ethnicity",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "loc_city": {
+                    "name": "loc_city",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "loc_state": {
+                    "name": "loc_state",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "symptoms": {
+                    "name": "symptoms",
+                    "type": "text[]",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "ARRAY[]::text[]"
+                },
+                "diagnosis": {
+                    "name": "diagnosis",
+                    "type": "text[]",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "ARRAY[]::text[]"
+                },
+                "query": {
+                    "name": "query",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "uploaded_at": {
+                    "name": "uploaded_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                }
+            },
+            "indexes": {
+                "idx_uploaded_at": {
+                    "name": "idx_uploaded_at",
+                    "columns": [
+                        {
+                            "expression": "uploaded_at",
+                            "isExpression": false,
+                            "asc": true,
+                            "nulls": "last"
+                        }
+                    ],
+                    "isUnique": false,
+                    "concurrently": false,
+                    "method": "btree",
+                    "with": {}
+                }
+            },
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {},
+            "policies": {},
+            "checkConstraints": {},
+            "isRLSEnabled": false
         }
-      },
-      "indexes": {
-        "idx_uploaded_at": {
-          "name": "idx_uploaded_at",
-          "columns": [
-            {
-              "expression": "uploaded_at",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    }
-  },
-  "enums": {},
-  "schemas": {},
-  "sequences": {},
-  "roles": {},
-  "policies": {},
-  "views": {},
-  "_meta": {
-    "columns": {},
+    },
+    "enums": {},
     "schemas": {},
-    "tables": {}
-  }
+    "sequences": {},
+    "roles": {},
+    "policies": {},
+    "views": {},
+    "_meta": {
+        "columns": {},
+        "schemas": {},
+        "tables": {}
+    }
 }

@@ -12,7 +12,7 @@ export async function getTranscripts() {
     return response
 }
 
-export async function getTranscript(transcriptId: string): T {
+export async function getTranscript(transcriptId: string) {
     'use server'
     const response = db
         .select()

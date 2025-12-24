@@ -1,6 +1,6 @@
-import Link from 'next/link'
-import { uploadAction } from '@/app/actions'
-import { UploadComponent } from '@/components/UploadComponent'
+import Link from 'next/link';
+import { uploadAction } from '@/app/actions';
+import { UploadComponent } from '@/components/UploadComponent';
 import {
     Table,
     TableBody,
@@ -8,23 +8,19 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '@/components/ui/table'
-import { getTranscripts } from '@/db/transcripts'
+} from '@/components/ui/table';
+import { getTranscripts } from '@/db/transcripts';
 
 export default async function Home() {
-    
     const uploadFile = async (formData: FormData) => {
-        'use server'
-        await uploadAction(formData)
-        
-    }
+        'use server';
+        await uploadAction(formData);
+    };
 
-    const transcripts = await getTranscripts()
-    
+    const transcripts = await getTranscripts();
+
     return (
-        
         <div className="flex gap-12 ">
-            
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -39,7 +35,8 @@ export default async function Home() {
                             <TableCell>
                                 <Link
                                     className="cursor-pointer hover:text-teal-600"
-                                    href={`/detail/${transcript.id}`}>
+                                    href={`/detail/${transcript.id}`}
+                                >
                                     {transcript.title}
                                 </Link>
                             </TableCell>
@@ -50,5 +47,5 @@ export default async function Home() {
 
             <UploadComponent uploadFile={uploadFile} />
         </div>
-    )
+    );
 }
